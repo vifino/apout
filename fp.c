@@ -18,11 +18,11 @@ float powf(float x, float y);	/* FreeBSD 3.X no longer defines this */
 #define XUL	170141163178059628080016879768632819712.0 /* Biggest float */
 
 typedef struct {
-   unsigned frac1:7;	/* Fractional part of number */
-   unsigned exp:  8;	/* Excess 128 notation: exponenents -128 to +127 */
+	 unsigned frac1:7;	/* Fractional part of number */
+	 unsigned exp:  8;	/* Excess 128 notation: exponenents -128 to +127 */
 			/* become 0 to 255 */
-   unsigned sign: 1;	/* If 1, float is negative */
-   unsigned frac2: 16;	/* Fractional part of number */
+	 unsigned sign: 1;	/* If 1, float is negative */
+	 unsigned frac2: 16;	/* Fractional part of number */
 } pdpfloat;
 
 
@@ -66,26 +66,26 @@ static void from11float(FLOAT *out, pdpfloat *in)
 /* Convert from native representation to PDP-11 float representation */
 static void to11float(FLOAT *in, pdpfloat *out)
 {
-  int32_t  exponent=129;
-  u_int32_t fraction;
-  FLOAT infloat= *in;
+	int32_t  exponent=129;
+	u_int32_t fraction;
+	FLOAT infloat= *in;
 
-  FpDebug((dbg_file, "\t0%o to11float in is %f\n",regs[7], infloat));
-  if (infloat < 0.0) { out->sign=1; infloat= -infloat; } 
-  else out->sign=0;
+	FpDebug((dbg_file, "\t0%o to11float in is %f\n",regs[7], infloat));
+	if (infloat < 0.0) { out->sign=1; infloat= -infloat; } 
+	else out->sign=0;
 
-  if (infloat==0.0) { out->frac1=0; out->frac2=0; out->exp=0; return; }
+	if (infloat==0.0) { out->frac1=0; out->frac2=0; out->exp=0; return; }
 
-  /* We want the float's fraction to start with 1.0 (in binary) */
-  /* Therefore it must be < 2.0 and >= 1.0 */
-  while (infloat >= 2.0) { infloat *= 0.5; exponent++; }
-  while (infloat < 1.0)	 { infloat *= 2.0; exponent--; }
+	/* We want the float's fraction to start with 1.0 (in binary) */
+	/* Therefore it must be < 2.0 and >= 1.0 */
+	while (infloat >= 2.0) { infloat *= 0.5; exponent++; }
+	while (infloat < 1.0)	 { infloat *= 2.0; exponent--; }
 
-  infloat= infloat - 1.0;		/* Remove significant bit */
-  fraction= (int)(infloat * 8388608.0); /* Multiply fraction by 2^24 */
-  out->frac2= fraction & 0xffff;
-  out->frac1= (fraction>>16);
-  out->exp= exponent;
+	infloat= infloat - 1.0;		/* Remove significant bit */
+	fraction= (int)(infloat * 8388608.0); /* Multiply fraction by 2^24 */
+	out->frac2= fraction & 0xffff;
+	out->frac1= (fraction>>16);
+	out->exp= exponent;
 }
 
 static struct { u_int16_t lo; u_int16_t hi; } intpair;
@@ -394,138 +394,138 @@ fpset()
 void
 ldf()	/* Load float */
 {
-  AC= (ir >> 6) & 3;
-  load_flt();
-  fregs[AC]= Srcflt;
-  FPC=0; FPV=0; 
-  if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
-  if (fregs[AC]<0.0)  FPN=1; else FPN=0;
+	AC= (ir >> 6) & 3;
+	load_flt();
+	fregs[AC]= Srcflt;
+	FPC=0; FPV=0; 
+	if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
+	if (fregs[AC]<0.0)  FPN=1; else FPN=0;
 }
 
 void
 stf()	/* Store float */
 {
-  AC= (ir >> 6) & 3;
-  Srcflt= fregs[AC];
-  save_flt();
+	AC= (ir >> 6) & 3;
+	Srcflt= fregs[AC];
+	save_flt();
 }
 
 
 void
 clrf()	/* Store float */
 {
-  AC= (ir >> 6) & 3;
-  Srcflt= 0.0;
-  save_flt();
-  FPC= FPZ= FPV= 0; FPZ=1;
+	AC= (ir >> 6) & 3;
+	Srcflt= 0.0;
+	save_flt();
+	FPC= FPZ= FPV= 0; FPZ=1;
 }
 void
 addf()	/* Add float */
 {
-  AC= (ir >> 6) & 3;
-  load_flt();
-  fregs[AC]+= Srcflt;
-  FPC=0;
-  if (fregs[AC]>XUL)  FPV=1; else FPV=0;
-  if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
-  if (fregs[AC]<0.0)  FPN=1; else FPN=0;
+	AC= (ir >> 6) & 3;
+	load_flt();
+	fregs[AC]+= Srcflt;
+	FPC=0;
+	if (fregs[AC]>XUL)  FPV=1; else FPV=0;
+	if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
+	if (fregs[AC]<0.0)  FPN=1; else FPN=0;
 }
 
 void
 subf()	/* Subtract float */
 {
-  AC= (ir >> 6) & 3;
-  load_flt();
-  fregs[AC]-= Srcflt;
-  FPC=0;
-  if (fregs[AC]>XUL)  FPV=1; else FPV=0;
-  if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
-  if (fregs[AC]<0.0)  FPN=1; else FPN=0;
+	AC= (ir >> 6) & 3;
+	load_flt();
+	fregs[AC]-= Srcflt;
+	FPC=0;
+	if (fregs[AC]>XUL)  FPV=1; else FPV=0;
+	if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
+	if (fregs[AC]<0.0)  FPN=1; else FPN=0;
 }
 
 void
 negf()	/* Negate float */
 {
-  load_flt();
-  fladdr->sign= -(fladdr->sign);
-  FPC=0; FPV=0; 
-  if (Srcflt==0.0) FPZ=1; else FPZ=0;
-  if (Srcflt<0.0)  FPN=1; else FPN=0;
+	load_flt();
+	fladdr->sign= -(fladdr->sign);
+	FPC=0; FPV=0; 
+	if (Srcflt==0.0) FPZ=1; else FPZ=0;
+	if (Srcflt<0.0)  FPN=1; else FPN=0;
 }
 
 
 void
 absf()	/* Absolute float */
 {
-  load_flt();
-  fladdr->sign= 0;
-  FPC=0; FPV=0; FPN=0;
-  if (Srcflt==0.0) FPZ=1; else FPZ=0;
+	load_flt();
+	fladdr->sign= 0;
+	FPC=0; FPV=0; FPN=0;
+	if (Srcflt==0.0) FPZ=1; else FPZ=0;
 }
 
 void
 mulf()	/* Multiply float */
 {
-  AC= (ir >> 6) & 3;
-  load_flt();
-  fregs[AC]*= Srcflt;
-  FPC=0;
-  if (fregs[AC]>XUL)  FPV=1; else FPV=0;
-  if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
-  if (fregs[AC]<0.0)  FPN=1; else FPN=0;
+	AC= (ir >> 6) & 3;
+	load_flt();
+	fregs[AC]*= Srcflt;
+	FPC=0;
+	if (fregs[AC]>XUL)  FPV=1; else FPV=0;
+	if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
+	if (fregs[AC]<0.0)  FPN=1; else FPN=0;
 }
 
 
 void
 moddf() /* Multiply and integerise float */
 {
-  FLOAT x,y;
+	FLOAT x,y;
 
-  AC= (ir >> 6) & 3;
-  load_flt();
-  fregs[AC]*= Srcflt; y= fregs[AC];
-  if (y>0.0) x= (FLOAT) floor((double)y);
-  else x= (FLOAT) ceil((double)y);
-  fregs[AC|1]= x;
+	AC= (ir >> 6) & 3;
+	load_flt();
+	fregs[AC]*= Srcflt; y= fregs[AC];
+	if (y>0.0) x= (FLOAT) floor((double)y);
+	else x= (FLOAT) ceil((double)y);
+	fregs[AC|1]= x;
 
-  y=y-x;  fregs[AC]=y;
+	y=y-x;  fregs[AC]=y;
 
-  FPC=0;
-  if (fregs[AC]>XUL)  FPV=1; else FPV=0;
-  if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
-  if (fregs[AC]<0.0)  FPN=1; else FPN=0;
+	FPC=0;
+	if (fregs[AC]>XUL)  FPV=1; else FPV=0;
+	if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
+	if (fregs[AC]<0.0)  FPN=1; else FPN=0;
 }
 
 void
 divf()	/* Divide float */
 {
-  AC= (ir >> 6) & 3;
-  load_flt();
-  fregs[AC]/= Srcflt;
-  FPC=0;
-  if (fregs[AC]>XUL)  FPV=1; else FPV=0;
-  if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
-  if (fregs[AC]<0.0)  FPN=1; else FPN=0;
+	AC= (ir >> 6) & 3;
+	load_flt();
+	fregs[AC]/= Srcflt;
+	FPC=0;
+	if (fregs[AC]>XUL)  FPV=1; else FPV=0;
+	if (fregs[AC]==0.0) FPZ=1; else FPZ=0;
+	if (fregs[AC]<0.0)  FPN=1; else FPN=0;
 }
 
 void
 cmpf()	/* Compare float */
 {
-  AC= (ir >> 6) & 3;
-  load_flt();
-  FPC=0; FPV=0;
-  if (fregs[AC]>Srcflt)	 FPN=1; else FPN=0;
-  if (fregs[AC]==Srcflt) FPZ=1; else FPZ=0;
+	AC= (ir >> 6) & 3;
+	load_flt();
+	FPC=0; FPV=0;
+	if (fregs[AC]>Srcflt)	 FPN=1; else FPN=0;
+	if (fregs[AC]==Srcflt) FPZ=1; else FPZ=0;
 }
 
 void
 tstf()	/* Test float */
 {
-  AC= (ir >> 6) & 3;
-  load_flt();
-  FPC=0; FPV=0;
-  if (Srcflt<0.0)  FPN=1; else FPN=0;
-  if (Srcflt==0.0) FPZ=1; else FPZ=0;
+	AC= (ir >> 6) & 3;
+	load_flt();
+	FPC=0; FPV=0;
+	if (Srcflt<0.0)  FPN=1; else FPN=0;
+	if (Srcflt==0.0) FPZ=1; else FPZ=0;
 }
 
 void
@@ -552,27 +552,27 @@ stfps() /* Store FPP status */
 void
 lcdif() /* Convert int to float */
 {
-  AC= (ir >> 6) & 3;
-  if (INTMODE==0) {	/* ints */
+	AC= (ir >> 6) & 3;
+	if (INTMODE==0) {	/* ints */
 	load_src();
 	fregs[AC]= (float) srcword;
-  } else {
+	} else {
 	load_long();
 	fregs[AC]= (float) srclong;
-  }
+	}
 }
 
 void
 stcfi() /* Convert int to float */
 {
-  AC= (ir >> 6) & 3;
-  if (INTMODE==0) {	/* ints */
+	AC= (ir >> 6) & 3;
+	if (INTMODE==0) {	/* ints */
 	dstword= (int16_t) fregs[AC];
 	store_dst();
-  } else {
+	} else {
 	dstlong= (int32_t) fregs[AC];
 	store_long();
-  }
+	}
 }
 
 void

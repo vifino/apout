@@ -18,7 +18,7 @@ ar.s to behave itself. The patch is:
 		sys	 write; magic; 2
 +	   mov	 tfo,r0		  / need to close before reading
 +	   sys	 close
-  1:
+	1:
 		mov	 tfi,r0
 		sys	 read; buf; 512.
 

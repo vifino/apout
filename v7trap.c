@@ -685,17 +685,17 @@ trap_stty(u_int16_t fd, u_int16_t ucnt)
 /* Where possible, deal with signals */
 static int v7signal(int sig, int val)
 {
-  if (sig>V7_NSIG) { errno=EINVAL; return(-1); }
-  if (v7sig[sig]==0) return(0);
+	if (sig>V7_NSIG) { errno=EINVAL; return(-1); }
+	if (v7sig[sig]==0) return(0);
 
-  switch(val) {
+	switch(val) {
 	case V7_SIG_IGN:
 	  return((int)signal(v7sig[sig], SIG_IGN));
 	case V7_SIG_DFL:
 	  return((int)signal(v7sig[sig], SIG_DFL));
 	default:
 	  return(0);	  /* No handling of this as yet */
-  }
+	}
 }
 
 /* Workaround for bug in V5/V6 ctime() */

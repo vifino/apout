@@ -83,29 +83,29 @@ struct bsd_sigaction Sigact[NBSDSIG];
 /* Set all signals to their default value */
 void set_bsdsig_dfl(void)
 {
-  int i;
+	int i;
 
-  for (i=0;i<NBSDSIG;i++) {
+	for (i=0;i<NBSDSIG;i++) {
 	if (bsdsig[i]) signal(bsdsig[i], SIG_DFL);
 	Sigact[i].sig_handler= BSDSIG_DFL;
 	Sigact[i].sa_mask= Sigact[i].sa_flags= 0;
-  }
+	}
 }
 
 int do_sigaction(int sig, int a, int oa)
 {
-  int i;
-  struct bsd_sigaction *act, *oact;
-  struct sigaction ouraction;
+	int i;
+	struct bsd_sigaction *act, *oact;
+	struct sigaction ouraction;
 
-  if ((sig<0) || (sig >= NBSDSIG)) return(EINVAL);
+	if ((sig<0) || (sig >= NBSDSIG)) return(EINVAL);
 
-  if (oa) {
+	if (oa) {
 	oact= (struct bsd_sigaction *)&dspace[oa];
 	memcpy(oact, &Sigact[sig], sizeof(struct bsd_sigaction));
-  }
+	}
 
-  if (a) {
+	if (a) {
 	act= (struct bsd_sigaction *)&dspace[a];
 
 		/* If required, map mask here */
@@ -118,15 +118,15 @@ int do_sigaction(int sig, int a, int oa)
 		/* If required, map flags here */
 	ouraction.sa_flags= act->sa_flags;
 	ouraction.sa_handler= sigcatcher;
-  }
+	}
 
-  i= sigaction(bsdsig[sig], &ouraction, NULL);
-  if (i==-1) return(i);
+	i= sigaction(bsdsig[sig], &ouraction, NULL);
+	if (i==-1) return(i);
 
 		/* Else save the new sigaction */
-  act= (struct bsd_sigaction *)&dspace[a];
-  memcpy(&Sigact[sig], act, sizeof(struct bsd_sigaction));
-  return(i);
+	act= (struct bsd_sigaction *)&dspace[a];
+	memcpy(&Sigact[sig], act, sizeof(struct bsd_sigaction));
+	return(i);
 }
 
 

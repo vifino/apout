@@ -128,7 +128,7 @@ int special_magic(u_int16_t *cptr)
 	  return(S[i].environment);
 	}
 
-   				/* None, return 0 */
+	 				/* None, return 0 */
 	(void)printf("Apout - unknown magic in header: 0x%x\n",cksum);
 	return(IS_UNKNOWN);
 }

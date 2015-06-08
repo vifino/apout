@@ -163,11 +163,11 @@ Changes from 2.1 to 2.2
 
  + General code tidying up and niggling bug removal.
  + Code optimisation to speed things up, although
-   I haven't quantified the improvement yet.
+	 I haven't quantified the improvement yet.
  + Separation of the binary loader and trap handlers
-   from the main program. This doesn't do anything now,
-   but it will make the emulation of several PDP-11
-   environments (e.g 2.11BSD, RT-11) much easier to do.
+	 from the main program. This doesn't do anything now,
+	 but it will make the emulation of several PDP-11
+	 environments (e.g 2.11BSD, RT-11) much easier to do.
  + Finished getting the stream buffering of I/O to work.
-   I still don't know why fdopen doesn't work on "rw".
+	 I still don't know why fdopen doesn't work on "rw".
  + Some extra trap functionality, e.g basic signal handling.

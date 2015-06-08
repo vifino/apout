@@ -40,10 +40,10 @@ int32_t SR;				/* Status register */
 /* Load a word from one of the KE11 registers */
 int16_t kell_word(u_int16_t addr)
 {
-  int16_t data;
-  int pid;
+	int16_t data;
+	int pid;
 
-  switch (addr) {
+	switch (addr) {
 	case eae_DIV:
 	  data = 0; break;
 	case eae_MQ:
@@ -67,37 +67,37 @@ int16_t kell_word(u_int16_t addr)
 	  (void) fprintf(stderr, "Apout - pid %d unknown KE11 register 0%o\n",
 			 pid, addr);
 	  exit(EXIT_FAILURE);
-  }
-  return data;
+	}
+	return data;
 }
 
 /* Load a byte from one of the KE11 registers */
 int8_t kell_byte(u_int16_t addr)
 {
-  if (addr&1) printf("Hmm, KE11 access on 0%o\n",addr);
-  return ((int8_t) kell_word(addr));
+	if (addr&1) printf("Hmm, KE11 access on 0%o\n",addr);
+	return ((int8_t) kell_word(addr));
 }
 
 /* Save a word to one of the KE11 registers */
 void kesl_word(u_int16_t addr, u_int16_t word)
 {
-  eae_wr(word, addr, WRITEW);
+	eae_wr(word, addr, WRITEW);
 }
 
 /* Save a byte to one of the KE11 registers */
 void kesl_byte(u_int16_t addr, u_int8_t byte)
 {
-  eae_wr(byte, addr, WRITEB);
+	eae_wr(byte, addr, WRITEB);
 }
 
 void eae_wr(u_int16_t data, u_int16_t PA, int32_t access)
 {
-  int32_t divisor, quotient, remainder;
-  int32_t dividend, product;
-  int32_t oldMQ;
-  int pid;
+	int32_t divisor, quotient, remainder;
+	int32_t dividend, product;
+	int32_t oldMQ;
+	int pid;
 
-  switch (PA) {
+	switch (PA) {
 	case eae_DIV:
 	  SC = 0;
 	  dividend = (AC << 16) | MQ;
@@ -213,18 +213,18 @@ void eae_wr(u_int16_t data, u_int16_t PA, int32_t access)
 	  (void) fprintf(stderr, "Apout - pid %d unknown KE11 register 0%o\n",
 			 pid, PA);
 	  exit(EXIT_FAILURE);
-  }
+	}
 }
 
 void set_SR(void)
 {
-  SR = SR & 0301;		/* clear the result bits we can set here */
-  if (((MQ & 0100000) == 0) && (AC == 0)) SR = SR | 002;
-  if (((MQ & 0100000) == 0100000) && (AC == 0177777)) SR = SR | 002;
+	SR = SR & 0301;		/* clear the result bits we can set here */
+	if (((MQ & 0100000) == 0) && (AC == 0)) SR = SR | 002;
+	if (((MQ & 0100000) == 0100000) && (AC == 0177777)) SR = SR | 002;
 
-  if ((AC == 0) && (MQ == 0)) SR = SR | 0004;
-  if (MQ == 0) SR = SR | 0010;
-  if (AC == 0) SR = SR | 0020;
-  if (AC == 0177777) SR = SR | 0040;
+	if ((AC == 0) && (MQ == 0)) SR = SR | 0004;
+	if (MQ == 0) SR = SR | 0010;
+	if (AC == 0) SR = SR | 0020;
+	if (AC == 0177777) SR = SR | 0040;
 }
 #endif	/* EMUV1 */

@@ -34,11 +34,11 @@
 
 /* sgtty structure */
 struct tr_sgttyb {
-  int8_t sg_ispeed;		/* input speed */
-  int8_t sg_ospeed;		/* output speed */
-  int8_t sg_erase;		/* erase character */
-  int8_t sg_kill;		/* kill character */
-  int16_t sg_flags;		/* mode flags */
+	int8_t sg_ispeed;		/* input speed */
+	int8_t sg_ospeed;		/* output speed */
+	int8_t sg_erase;		/* erase character */
+	int8_t sg_kill;		/* kill character */
+	int16_t sg_flags;		/* mode flags */
 };
 
 struct tr_tchars {
@@ -113,18 +113,18 @@ static int trap_settermios(u_int16_t fd, u_int32_t type, u_int16_t ucnt);
 
 int trap_ioctl()
 {
-  int i, val;
-  long larg1;
+	int i, val;
+	long larg1;
 #ifdef DEBUG
-  u_int8_t size, letter, value;
+	u_int8_t size, letter, value;
 #endif
-  int16_t *shortptr;
-  struct winsize *winptr;
+	int16_t *shortptr;
+	struct winsize *winptr;
 
-  larg1 = (sarg2 << 16) | uarg3;
+	larg1 = (sarg2 << 16) | uarg3;
 
 #ifdef DEBUG
-  if (trap_debug) {
+	if (trap_debug) {
 	fprintf(dbg_file, "val %d ",uarg1);
 	switch (larg1) {
 	  case TR_FIOCLEX:	  fprintf(dbg_file, "FIOCLEX "); break;
@@ -154,10 +154,10 @@ int trap_ioctl()
 		fprintf(dbg_file, "val %d) ", value);
 	}
 	if (size) fprintf(dbg_file, "ptr %d ", uarg4);
-  }
+	}
 #endif
 
-  switch (larg1) {
+	switch (larg1) {
 
 	case TR_TIOCGETP:
 	case TR_TIOCGETC:
@@ -210,15 +210,15 @@ int trap_ioctl()
 
 	default:
 	  i = 0;
-  }
-  return (i);
+	}
+	return (i);
 }
 
 
 /* Convert from termios to old sgttyb structure */
 static void to_sgttyb(struct tr_sgttyb * sgtb, struct termios * tios)
 {
-  switch (tios->c_ispeed) {
+	switch (tios->c_ispeed) {
 	 case B0: sgtb->sg_ispeed= TR_B0; break;
 	 case B50: sgtb->sg_ispeed= TR_B50; break;
 	 case B75: sgtb->sg_ispeed= TR_B75; break;
@@ -236,8 +236,8 @@ static void to_sgttyb(struct tr_sgttyb * sgtb, struct termios * tios)
 	 case B19200: sgtb->sg_ispeed= TR_EXTA; break;
 	 case B38400: sgtb->sg_ispeed= TR_EXTB; break;
 	 default: sgtb->sg_ispeed= TR_B0; break;
-  }
-  switch (tios->c_ospeed) {
+	}
+	switch (tios->c_ospeed) {
 	 case B0: sgtb->sg_ospeed= TR_B0; break;
 	 case B50: sgtb->sg_ospeed= TR_B50; break;
 	 case B75: sgtb->sg_ospeed= TR_B75; break;
@@ -255,38 +255,38 @@ static void to_sgttyb(struct tr_sgttyb * sgtb, struct termios * tios)
 	 case B19200: sgtb->sg_ospeed= TR_EXTA; break;
 	 case B38400: sgtb->sg_ospeed= TR_EXTB; break;
 	 default: sgtb->sg_ospeed= TR_B0; break;
-  }
-  sgtb->sg_erase = tios->c_cc[VERASE];
-  sgtb->sg_kill = tios->c_cc[VKILL];
-  sgtb->sg_flags = 0;
-  if (tios->c_oflag & OXTABS)
+	}
+	sgtb->sg_erase = tios->c_cc[VERASE];
+	sgtb->sg_kill = tios->c_cc[VKILL];
+	sgtb->sg_flags = 0;
+	if (tios->c_oflag & OXTABS)
 	sgtb->sg_flags |= TR_XTABS;
-  if (tios->c_cflag & PARENB) {
+	if (tios->c_cflag & PARENB) {
 	if (tios->c_cflag & PARODD)
 	  sgtb->sg_flags |= TR_ODDP;
 	else
 	  sgtb->sg_flags |= TR_EVENP;
-  } else
+	} else
 	sgtb->sg_flags |= TR_ANYP;
-  if (tios->c_oflag & ONLCR)
+	if (tios->c_oflag & ONLCR)
 	sgtb->sg_flags |= TR_CRMOD;
-  if (tios->c_lflag & ECHO)
+	if (tios->c_lflag & ECHO)
 	sgtb->sg_flags |= TR_ECHO;
-  if (!(tios->c_lflag & ICANON)) {
+	if (!(tios->c_lflag & ICANON)) {
 	if (!(tios->c_lflag & ECHO))
 	  sgtb->sg_flags |= TR_CBREAK;
 	else
 	  sgtb->sg_flags |= TR_RAW;
-  }
+	}
 }
 
 /* Convert from old sgttyb to termios structure */
 static void to_termios(struct tr_sgttyb * sgtb, struct termios * tios)
 {
-  TrapDebug((dbg_file, "\n\tto_termios: sgtty flags are 0x%x ",
+	TrapDebug((dbg_file, "\n\tto_termios: sgtty flags are 0x%x ",
 							sgtb->sg_flags));
 
-  switch (sgtb->sg_ispeed) {
+	switch (sgtb->sg_ispeed) {
 	 case TR_B0: tios->c_ispeed= B0; break;
 	 case TR_B50: tios->c_ispeed= B50; break;
 	 case TR_B75: tios->c_ispeed= B75; break;
@@ -304,8 +304,8 @@ static void to_termios(struct tr_sgttyb * sgtb, struct termios * tios)
 	 case TR_EXTA: tios->c_ispeed= B19200; break;
 	 case TR_EXTB: tios->c_ispeed= B38400; break;
 	 default: tios->c_ispeed= B0; break;
-  }
-  switch (sgtb->sg_ospeed) {
+	}
+	switch (sgtb->sg_ospeed) {
 	 case TR_B0: tios->c_ospeed= B0; break;
 	 case TR_B50: tios->c_ospeed= B50; break;
 	 case TR_B75: tios->c_ospeed= B75; break;
@@ -323,108 +323,108 @@ static void to_termios(struct tr_sgttyb * sgtb, struct termios * tios)
 	 case TR_EXTA: tios->c_ospeed= B19200; break;
 	 case TR_EXTB: tios->c_ospeed= B38400; break;
 	 default: tios->c_ospeed= B0; break;
-  }
-  tios->c_cc[VERASE] = sgtb->sg_erase;
-  tios->c_cc[VKILL] = sgtb->sg_kill;
+	}
+	tios->c_cc[VERASE] = sgtb->sg_erase;
+	tios->c_cc[VKILL] = sgtb->sg_kill;
 
 				/* Initially turn off any flags we might set */
-  tios->c_oflag &= ~(OXTABS|ONLCR);
-  tios->c_cflag &= ~(PARENB|PARODD);
-  tios->c_lflag &= ~(ECHO);
+	tios->c_oflag &= ~(OXTABS|ONLCR);
+	tios->c_cflag &= ~(PARENB|PARODD);
+	tios->c_lflag &= ~(ECHO);
 
-  if (sgtb->sg_flags & TR_XTABS)
+	if (sgtb->sg_flags & TR_XTABS)
 	tios->c_oflag |= OXTABS;
-  if (sgtb->sg_flags & TR_ODDP) {
+	if (sgtb->sg_flags & TR_ODDP) {
 	tios->c_cflag |= PARENB;
 	tios->c_cflag &= ~PARODD;
-  }
-  if (sgtb->sg_flags & TR_EVENP)
+	}
+	if (sgtb->sg_flags & TR_EVENP)
 	tios->c_cflag |= PARENB | PARODD;
-  if (sgtb->sg_flags & TR_ANYP)
+	if (sgtb->sg_flags & TR_ANYP)
 	tios->c_cflag &= ~PARENB;
-  if (sgtb->sg_flags & TR_CRMOD)
+	if (sgtb->sg_flags & TR_CRMOD)
 	tios->c_oflag |= ONLCR;
-  if (sgtb->sg_flags & TR_ECHO)
+	if (sgtb->sg_flags & TR_ECHO)
 	tios->c_lflag |= ECHO;
 
-  if (sgtb->sg_flags & TR_RAW) {
+	if (sgtb->sg_flags & TR_RAW) {
 	tios->c_lflag &= ~(ECHO|ICANON|IEXTEN|ISIG|BRKINT|ICRNL|INPCK|ISTRIP|IXON);
 	tios->c_cflag &= ~(CSIZE|PARENB);
 	tios->c_cflag |= CS8;
 	tios->c_oflag &= ~(OPOST);
 	tios->c_cc[VMIN] = 1;
 	tios->c_cc[VTIME] = 0;
-  }
+	}
 
-  if (sgtb->sg_flags & TR_CBREAK) {
-  TrapDebug((dbg_file, "\n\tto_termios: setting cbreak I hope "));
+	if (sgtb->sg_flags & TR_CBREAK) {
+	TrapDebug((dbg_file, "\n\tto_termios: setting cbreak I hope "));
 	tios->c_lflag &= ~(ECHO|ICANON);
 	tios->c_cc[VMIN] = 1;
 	tios->c_cc[VTIME] = 0;
-  }
-  TrapDebug((dbg_file, "\n\tto_termios: iflag is 0x%x", (int)tios->c_iflag));
-  TrapDebug((dbg_file, "\n\tto_termios: oflag is 0x%x", (int)tios->c_oflag));
-  TrapDebug((dbg_file, "\n\tto_termios: lflag is 0x%x ", (int)tios->c_lflag));
+	}
+	TrapDebug((dbg_file, "\n\tto_termios: iflag is 0x%x", (int)tios->c_iflag));
+	TrapDebug((dbg_file, "\n\tto_termios: oflag is 0x%x", (int)tios->c_oflag));
+	TrapDebug((dbg_file, "\n\tto_termios: lflag is 0x%x ", (int)tios->c_lflag));
 }
 
 /* Convert from termios to old [l]tchars structures */
 static void to_tchars(struct tr_tchars *tc, struct tr_ltchars *ltc,
 						struct termios * tios)
 {
-  if (tc) {
+	if (tc) {
 		tc->t_intrc=tios->c_cc[VINTR];
 		tc->t_quitc=tios->c_cc[VQUIT];
 		tc->t_startc=tios->c_cc[VSTART];
 		tc->t_stopc=tios->c_cc[VSTOP];
 		tc->t_eofc=tios->c_cc[VEOF];
 		tc->t_brkc=tios->c_cc[VEOL];
-  }
-  if (ltc) {
+	}
+	if (ltc) {
 		ltc->t_suspc=tios->c_cc[VSUSP];
 		ltc->t_dsuspc=tios->c_cc[VDSUSP];
 		ltc->t_rprntc=tios->c_cc[VREPRINT];
 		ltc->t_flushc=tios->c_cc[VDISCARD];
 		ltc->t_werasc=tios->c_cc[VERASE];
 		ltc->t_lnextc=tios->c_cc[VLNEXT];
-  }
+	}
 }
 
 /* Convert from old [l]tchars to termios structures */
 static void tc_to_tchars(struct tr_tchars *tc, struct tr_ltchars *ltc,
 						struct termios * tios)
 {
-  if (tc) {
+	if (tc) {
 	tios->c_cc[VINTR]= tc->t_intrc;
 	tios->c_cc[VQUIT]= tc->t_quitc;
 	tios->c_cc[VSTART]= tc->t_startc;
 	tios->c_cc[VSTOP]= tc->t_stopc;
 	tios->c_cc[VEOF]= tc->t_eofc;
 	tios->c_cc[VEOL]= tc->t_brkc;
-  }
-  if (ltc) {
+	}
+	if (ltc) {
 	tios->c_cc[VSUSP]= ltc->t_suspc;
 	tios->c_cc[VDSUSP]= ltc->t_dsuspc;
 	tios->c_cc[VREPRINT]= ltc->t_rprntc;
 	tios->c_cc[VDISCARD]= ltc->t_flushc;
 	tios->c_cc[VERASE]= ltc->t_werasc;
 	tios->c_cc[VLNEXT]= ltc->t_lnextc;
-  }
+	}
 }
 /* Handle most get ioctls that deal with termios stuff */
 static int trap_gettermios(u_int16_t fd, u_int32_t type, u_int16_t ucnt)
 {
-  struct termios tios;
-  struct tr_sgttyb *sgtb;
-  struct tr_tchars *tc;
-  struct tr_ltchars *ltc;
-  int i;
+	struct termios tios;
+	struct tr_sgttyb *sgtb;
+	struct tr_tchars *tc;
+	struct tr_ltchars *ltc;
+	int i;
 
-  if (ucnt == 0) return -1;
-  i = tcgetattr(fd, &tios);
-  if (i == -1) return i;
-  CLR_CC_C();
+	if (ucnt == 0) return -1;
+	i = tcgetattr(fd, &tios);
+	if (i == -1) return i;
+	CLR_CC_C();
 
-  switch (type) {
+	switch (type) {
 	case TR_TIOCGETP:
 	  sgtb = (struct tr_sgttyb *) &dspace[ucnt];
 	  to_sgttyb(sgtb, &tios); return 0;
@@ -434,24 +434,24 @@ static int trap_gettermios(u_int16_t fd, u_int32_t type, u_int16_t ucnt)
 	case TR_TIOCGLTC:
 	  ltc = (struct tr_ltchars *) &dspace[ucnt];
 	  to_tchars(NULL, ltc, &tios); return 0;
-  }
-  /* Unknown type, should never get here */
-  return -1;
+	}
+	/* Unknown type, should never get here */
+	return -1;
 }
 
 /* Handle most set ioctls that deal with termios stuff */
 static int trap_settermios(u_int16_t fd, u_int32_t type, u_int16_t ucnt)
 {
-  struct termios tios;
-  struct tr_sgttyb *sgtb;
-  struct tr_tchars *tc;
-  struct tr_ltchars *ltc;
-  int i;
+	struct termios tios;
+	struct tr_sgttyb *sgtb;
+	struct tr_tchars *tc;
+	struct tr_ltchars *ltc;
+	int i;
 
-  if (ucnt == 0) return -1;
-  i = tcgetattr(fd, &tios);
-  if (i == -1) return i;
-  switch (type) {
+	if (ucnt == 0) return -1;
+	i = tcgetattr(fd, &tios);
+	if (i == -1) return i;
+	switch (type) {
 	case TR_TIOCSETP:
 	  sgtb = (struct tr_sgttyb *) & dspace[ucnt];
 	  to_termios(sgtb, &tios);
@@ -472,8 +472,8 @@ static int trap_settermios(u_int16_t fd, u_int32_t type, u_int16_t ucnt)
 	  tc_to_tchars(NULL, ltc, &tios);
 	  i = tcsetattr(fd, TCSANOW, &tios);
 	  return (i);
-  }
-  /* Unknown type, should never get here */
-  return -1;
+	}
+	/* Unknown type, should never get here */
+	return -1;
 }
 #endif				/* EMU211 */

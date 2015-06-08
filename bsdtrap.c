@@ -855,23 +855,23 @@ bsdopen_dir(char *name)
  */
 static int16_t map_fcntl(int16_t f)
 {
-  int16_t out=0;
+	int16_t out=0;
 
-  if (f & BSD_RDONLY)   out |= O_RDONLY;
-  if (f & BSD_WRONLY)   out |= O_WRONLY;
-  if (f & BSD_RDWR)	 out |= O_RDWR;
-  if (f & BSD_NONBLOCK) out |= O_NONBLOCK;
-  if (f & BSD_APPEND)   out |= O_APPEND;
-  if (f & BSD_SHLOCK)   out |= O_SHLOCK;
-  if (f & BSD_EXLOCK)   out |= O_EXLOCK;
-  if (f & BSD_ASYNC)	out |= O_ASYNC;
-  if (f & BSD_FSYNC)	out |= O_FSYNC;
-  if (f & BSD_CREAT)	out |= O_CREAT;
-  if (f & BSD_TRUNC)	out |= O_TRUNC;
-  if (f & BSD_EXCL)	 out |= O_EXCL;
+	if (f & BSD_RDONLY)   out |= O_RDONLY;
+	if (f & BSD_WRONLY)   out |= O_WRONLY;
+	if (f & BSD_RDWR)	 out |= O_RDWR;
+	if (f & BSD_NONBLOCK) out |= O_NONBLOCK;
+	if (f & BSD_APPEND)   out |= O_APPEND;
+	if (f & BSD_SHLOCK)   out |= O_SHLOCK;
+	if (f & BSD_EXLOCK)   out |= O_EXLOCK;
+	if (f & BSD_ASYNC)	out |= O_ASYNC;
+	if (f & BSD_FSYNC)	out |= O_FSYNC;
+	if (f & BSD_CREAT)	out |= O_CREAT;
+	if (f & BSD_TRUNC)	out |= O_TRUNC;
+	if (f & BSD_EXCL)	 out |= O_EXCL;
 
-  TrapDebug((dbg_file, "map_fcntl: 0x%x -> 0x%x, ",f,out));
-  return(out);
+	TrapDebug((dbg_file, "map_fcntl: 0x%x -> 0x%x, ",f,out));
+	return(out);
 }
 #endif
 #endif	/* EMU211 */

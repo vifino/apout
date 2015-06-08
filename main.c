@@ -35,12 +35,12 @@ char *progname = NULL;		/* The program's name - used in debugging */
 
 void usage()
 {
-  fprintf(stderr, "Usage: apout");
+	fprintf(stderr, "Usage: apout");
 #ifdef DEBUG
-  fprintf(stderr, " [-inst] [-trap] [-jsr] [-fp]");
+	fprintf(stderr, " [-inst] [-trap] [-jsr] [-fp]");
 #endif
-  fprintf(stderr, " pdp11_binary\n");
-  exit(1);
+	fprintf(stderr, " pdp11_binary\n");
+	exit(1);
 }
 
 int

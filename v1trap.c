@@ -43,15 +43,15 @@ static u_int32_t sectosixty P((time_t tim));
  * of words, and the number in registers.
  */
 struct v1sysent {
-  int nwords;
-  int nregs;
+	int nwords;
+	int nregs;
 };
 static struct v1sysent v1arg[] = {
-  {0, 0}, {0, 0}, {0, 0}, {3, 1}, {3, 1}, {2, 0}, {1, 1}, {1, 1},
-  {2, 0}, {2, 0}, {1, 0}, {2, 0}, {1, 0}, {0, 0}, {2, 0}, {2, 0},
-  {2, 0}, {1, 0}, {2, 0}, {3, 1}, {3, 1}, {2, 0}, {1, 0}, {1, 1},
-  {1, 1}, {0, 0}, {1, 0}, {1, 0}, {2, 1}, {1, 0}, {1, 0}, {2, 1},
-  {2, 1}, {1, 0}
+	{0, 0}, {0, 0}, {0, 0}, {3, 1}, {3, 1}, {2, 0}, {1, 1}, {1, 1},
+	{2, 0}, {2, 0}, {1, 0}, {2, 0}, {1, 0}, {0, 0}, {2, 0}, {2, 0},
+	{2, 0}, {1, 0}, {2, 0}, {3, 1}, {3, 1}, {2, 0}, {1, 0}, {1, 1},
+	{1, 1}, {0, 0}, {1, 0}, {1, 0}, {2, 1}, {1, 0}, {1, 0}, {2, 1},
+	{2, 1}, {1, 0}
 };
 
 /* Seeks on files in /dev are done in 512-byte blocks, not bytes.
@@ -67,37 +67,37 @@ static arglist V1A;
 
 void v1trap()
 {
-  extern int32_t AC, MQ;	/* in ke11a.c */
-  int i, mode, pid;
-  int status, exitval, errval;	/* used in V2 wait */
-  int whence;
-  u_int16_t argbase;
-  int trapnum;
-  long larg;
-  char *buf, *buf2;
-  char *fmode;			/* used with fdopen only */
+	extern int32_t AC, MQ;	/* in ke11a.c */
+	int i, mode, pid;
+	int status, exitval, errval;	/* used in V2 wait */
+	int whence;
+	u_int16_t argbase;
+	int trapnum;
+	long larg;
+	char *buf, *buf2;
+	char *fmode;			/* used with fdopen only */
 
-  struct stat stbuf;		/* used in STAT */
-  struct tr_v1stat *t1;		/* used in STAT */
-  struct timeval tval[2];	/* used in SMTIME */
+	struct stat stbuf;		/* used in STAT */
+	struct tr_v1stat *t1;		/* used in STAT */
+	struct timeval tval[2];	/* used in SMTIME */
 
 
 
-  /* Work out the actual trap number, and */
-  /* shift the PC up past any arguments */
-  /* to the syscall. Calculate base of args */
-  trapnum = ir & 077;
-  argbase = regs[PC];
-  regs[PC] += 2 * (v1arg[trapnum].nwords - v1arg[trapnum].nregs);
+	/* Work out the actual trap number, and */
+	/* shift the PC up past any arguments */
+	/* to the syscall. Calculate base of args */
+	trapnum = ir & 077;
+	argbase = regs[PC];
+	regs[PC] += 2 * (v1arg[trapnum].nwords - v1arg[trapnum].nregs);
 
-  /* Move arguments into V1A so we can use them */
-  for (i = 0; i < v1arg[trapnum].nregs; i++) V1A.uarg[i] = regs[i];
-  for (; i < v1arg[trapnum].nwords; i++, argbase += 2)
+	/* Move arguments into V1A so we can use them */
+	for (i = 0; i < v1arg[trapnum].nregs; i++) V1A.uarg[i] = regs[i];
+	for (; i < v1arg[trapnum].nwords; i++, argbase += 2)
 	ll_word(argbase, V1A.uarg[i]);
 
-  TrapDebug((dbg_file, "pid %d %s: ", (int) getpid(), v1trap_name[trapnum]));
+	TrapDebug((dbg_file, "pid %d %s: ", (int) getpid(), v1trap_name[trapnum]));
 
-  switch (trapnum) {
+	switch (trapnum) {
 
 	  /* XXX STILL TO DO: V1_GTTY, V1_STTY, V1_TELL */
 
@@ -235,7 +235,7 @@ void v1trap()
 	  i = fstat(sarg1, &stbuf);
 	  TrapDebug((dbg_file, " on fd %d return %d ", sarg1, i));
 
-  dostat:
+	dostat:
 	  if (i == -1) break;
 	  t1 = (struct tr_v1stat *) buf2;
 				/* Inode numbers <41 are reserved for */
@@ -410,36 +410,36 @@ void v1trap()
 							v1trap_name[trapnum]);
 	  }
 	  exit(1);
-  }
+	}
 
-  /* Clear C bit if no error, or */
-  /* set C bit as there was an error */
+	/* Clear C bit if no error, or */
+	/* set C bit as there was an error */
 
-  if (i == -1) {
+	if (i == -1) {
 	SET_CC_C(); TrapDebug((dbg_file, "errno is %s\n", strerror(errno)));
-  } else {
+	} else {
 	CLR_CC_C(); TrapDebug((dbg_file, "return %d\n", i));
-  }
+	}
 #ifdef DEBUG
-  fflush(dbg_file);
+	fflush(dbg_file);
 #endif
-  return;
+	return;
 }
 
 
 static int v1trap_exec(void)
 {
-  u_int16_t cptr, cptr2;
-  char *buf, *name, *origpath;
+	u_int16_t cptr, cptr2;
+	char *buf, *name, *origpath;
 
-  origpath = strdup(&dspace[uarg1]);
-  name = xlate_filename(origpath);
-  TrapDebug((dbg_file, "%s Execing %s ", progname, name));
+	origpath = strdup(&dspace[uarg1]);
+	name = xlate_filename(origpath);
+	TrapDebug((dbg_file, "%s Execing %s ", progname, name));
 
-  cptr = uarg2;
+	cptr = uarg2;
 
-  Argc = 0;
-  while (Argc < MAX_ARGS) {
+	Argc = 0;
+	while (Argc < MAX_ARGS) {
 	ll_word(cptr, cptr2);
 	if (cptr2 == 0)
 	  break;
@@ -447,17 +447,17 @@ static int v1trap_exec(void)
 	Argv[Argc++] = strdup(buf);
 	cptr += 2;
 	TrapDebug((dbg_file, "%s ", buf));
-  }
-  Argv[Argc] = NULL;
-  TrapDebug((dbg_file, "\n"));
+	}
+	Argv[Argc] = NULL;
+	TrapDebug((dbg_file, "\n"));
 
-  if (load_a_out(name, origpath, 0) == -1) {
+	if (load_a_out(name, origpath, 0) == -1) {
 	for (Argc--; Argc >= 0; Argc--)
 	  free(Argv[Argc]);
 	return (-1);
-  }
-  run();			/* Ok, so it's recursive, I dislike setjmp */
-  return (0);
+	}
+	run();			/* Ok, so it's recursive, I dislike setjmp */
+	return (0);
 }
 
 /* 1st Edition reads directories as if they were ordinary files.
@@ -467,36 +467,36 @@ static int v1trap_exec(void)
  */
 static int v1open_dir(char *name)
 {
-  DIR *d;
-  char *tmpname;
-  int i;
-  struct dirent *dent;
+	DIR *d;
+	char *tmpname;
+	int i;
+	struct dirent *dent;
 
-  struct v1_direct {
+	struct v1_direct {
 	int16_t d_ino;
 	int8_t d_name[8];
-  } v1dent;
+	} v1dent;
 
-  d = opendir(name);
-  if (d == NULL) return (-1);
-  tmpname = strdup(TMP_PLATE);
-  i = mkstemp(tmpname);
-  if (i == -1) {
+	d = opendir(name);
+	if (d == NULL) return (-1);
+	tmpname = strdup(TMP_PLATE);
+	i = mkstemp(tmpname);
+	if (i == -1) {
 	fprintf(stderr, "Apout - open_dir couldn't open %s\n", tmpname);
 	exit(1);
-  }
-  unlink(tmpname);
-  free(tmpname);
+	}
+	unlink(tmpname);
+	free(tmpname);
 
-  while ((dent = readdir(d)) != NULL) {
+	while ((dent = readdir(d)) != NULL) {
 	v1dent.d_ino = dent->d_fileno & 0x7fff;
 	if (v1dent.d_ino<41) v1dent.d_ino+=100;
 	strncpy(v1dent.d_name, dent->d_name, 8);
 	write(i, &v1dent, 10);
-  }
-  closedir(d);
-  lseek(i, 0, SEEK_SET);
-  return (i);
+	}
+	closedir(d);
+	lseek(i, 0, SEEK_SET);
+	return (i);
 }
 
 /* Given a time, work out the number of 1/60ths of seconds since
@@ -504,19 +504,19 @@ static int v1open_dir(char *name)
  */
 u_int32_t sectosixty(time_t tim)
 {
-  time_t epoch;
-  u_int32_t diff;
-  struct tm *T;
+	time_t epoch;
+	u_int32_t diff;
+	struct tm *T;
 
-  T = gmtime(&tim);
-  T->tm_sec = T->tm_min = T->tm_hour = T->tm_mon = 0;
-  T->tm_mday = 1;
+	T = gmtime(&tim);
+	T->tm_sec = T->tm_min = T->tm_hour = T->tm_mon = 0;
+	T->tm_mday = 1;
 
-  epoch = timegm(T);		/* Find time at start of year */
-  diff = 60 * (tim - epoch);
-  if (diff > 0x71172C00) {
+	epoch = timegm(T);		/* Find time at start of year */
+	diff = 60 * (tim - epoch);
+	if (diff > 0x71172C00) {
 	fprintf(stderr, "Apout - V1 sectosixty too big by %d\n",diff-0x71172C00);
-  }
-  return (diff);
+	}
+	return (diff);
 }
 #endif				/* EMUV1 */

@@ -13,9 +13,9 @@ are emulated by calling equivalent native-mode system calls.
 
 The advantages of an a.out simulator over a full-blown PDP-11 simulator are:
 
-   + system calls can be done natively, thus speeding up execution
-   + the simulator is less of a CPU-hog than a full-blown PDP-11 simulator
-   + you don't need a simulated operating system or a simulated file system
+	 + system calls can be done natively, thus speeding up execution
+	 + the simulator is less of a CPU-hog than a full-blown PDP-11 simulator
+	 + you don't need a simulated operating system or a simulated file system
 
 Apout can be obtained via anonymous ftp at minnie.tuhs.org in the
 directory pub/PDP-11/Sims/Apout. The directory pub/PDP-11/Sims/Apout/UnixBins
