@@ -6,6 +6,14 @@
 # You will need gcc if you choose the optimised compile below
 CC?=gcc
 
+# Auto build flags.
+CFLAGS?=-O2 -DINLINE=inline -Winline -Wall -finline-functions -fomit-frame-pointer
+
+CFLAGS+=-DEMU211 -DEMUV1 -DDEBUG -DZERO_MEMORY -DWRITEBASE -DNATIVES
+LDFLAGS+=-static
+
+# Predefined build flags.
+#
 # Set the CFLAGS, LDFLAGS for speed or debugging. If you don't want 2.11BSD
 # emulation, then remove the -DEMU211 flag.
 # Set up the LIBS if required for your system
@@ -15,10 +23,10 @@ CC?=gcc
 #LDFLAGS= -static -g
 
 # These flags for optimised debug.
-CFLAGS= -DEMU211 -DEMUV1 -DDEBUG -DZERO_MEMORY -DWRITEBASE -DNATIVES \
-	-DINLINE=inline -O2 -Winline -Wall \
-	-finline-functions -fomit-frame-pointer
-LDFLAGS= -static
+#CFLAGS= -DEMU211 -DEMUV1 -DDEBUG -DZERO_MEMORY -DWRITEBASE -DNATIVES \
+#	-DINLINE=inline -O2 -Winline -Wall \
+#	-finline-functions -fomit-frame-pointer
+#LDFLAGS= -static
 
 # These flags for pure speed
 #CFLAGS= -DEMU211 -DNATIVES -DINLINE=inline -O2 -Winline -Wall \
