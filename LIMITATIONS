@@ -9,18 +9,18 @@ turn off Apout stream buffering (a performance penalty), or patch
 ar.s to behave itself. The patch is:
 
 *** ar.s.orig   Thu Jan 14 09:40:46 1999
---- ar.s        Thu Jan 14 09:41:12 1999
+--- ar.s		Thu Jan 14 09:41:12 1999
 ***************
 *** 444,449 ****
 --- 444,451 ----
-        bes     crterr
-        mov     r0,afo
-        sys     write; magic; 2
-+       mov     tfo,r0          / need to close before reading
-+       sys     close
+		bes	 crterr
+		mov	 r0,afo
+		sys	 write; magic; 2
++	   mov	 tfo,r0		  / need to close before reading
++	   sys	 close
   1:
-        mov     tfi,r0
-        sys     read; buf; 512.
+		mov	 tfi,r0
+		sys	 read; buf; 512.
 
 
 Floating-point Limitations
@@ -47,9 +47,9 @@ calls are ignored: lock(2), stime(2).
 
 The following systems calls are only partially implemented:
 
-    signal(2):		Only SIG_DFL and SIG_IGN are implemented.
-    stty(2), gtty(2):	These should work, but V7 stty(1) doesn't work.
-    ioctl(2):		Only enough to emulate stty(2) amd gtty(2).
+	signal(2):		Only SIG_DFL and SIG_IGN are implemented.
+	stty(2), gtty(2):	These should work, but V7 stty(1) doesn't work.
+	ioctl(2):		Only enough to emulate stty(2) amd gtty(2).
 
 The emulated applications use the native filesystem. Native filenames bigger
 than 14 characters are truncated to 14 characters before being passed to
@@ -102,26 +102,26 @@ The list of 0405-magic files on the s2 archive is:
 	bin/ar  	bin/od
 	bin/bas 	bin/pr
 	bin/cat 	bin/rew
-	bin/chball      bin/rmdir
-	bin/check       bin/roff
-	bin/chown       bin/sh
+	bin/chball	  bin/rmdir
+	bin/check	   bin/roff
+	bin/chown	   bin/sh
 	bin/cmp 	bin/skip
 	bin/cp  	bin/sort
-	bin/date        bin/stat
+	bin/date		bin/stat
 	bin/db  	bin/stty
 	bin/dc  	bin/su
 	bin/df  	bin/sum
 	bin/du  	bin/tap
-	bin/echo        bin/tm
+	bin/echo		bin/tm
 	bin/ed  	bin/tty
-	bin/exit        bin/wc
-	bin/form        bin/who
-	bin/goto        bin/write
+	bin/exit		bin/wc
+	bin/form		bin/who
+	bin/goto		bin/write
 	bin/if  	etc/getty
-	bin/login       etc/glob
+	bin/login	   etc/glob
 	bin/ls 		etc/init
-	bin/mail        etc/msh
-	bin/mesg        /tc/suftab
+	bin/mail		etc/msh
+	bin/mesg		/tc/suftab
 	bin/mkdir
 
 The following 1st Edition system calls are not yet emulated: GTTY, STTY, TELL.
@@ -141,15 +141,15 @@ archive to compile the last1120c C compiler on Dennis Ritchie's homepage.
 The list of 0407-magic files in the s2 archive is below. I have starred
 those binaries that I know work with Apout.
 
- *  bin/as		    usr/fort/fc1
- *  bin/cc		    usr/fort/fc2
-    bin/ds		    usr/fort/fc3
-    bin/fc		    usr/fort/fc4
-    bin/find		    usr/jack/a.out
- *  bin/ld		    usr/jack/x.o
-    bin/maki		 *  usr/lib/c0
-    bin/nm		 *  usr/lib/c1
- *  bin/size		    usr/lib/crt0.o
-    bin/strip		    usr/lib/fr0.o
-    bin/un		    usr/sys/a.out
+ *  bin/as			usr/fort/fc1
+ *  bin/cc			usr/fort/fc2
+	bin/ds			usr/fort/fc3
+	bin/fc			usr/fort/fc4
+	bin/find			usr/jack/a.out
+ *  bin/ld			usr/jack/x.o
+	bin/maki		 *  usr/lib/c0
+	bin/nm		 *  usr/lib/c1
+ *  bin/size			usr/lib/crt0.o
+	bin/strip			usr/lib/fr0.o
+	bin/un			usr/sys/a.out
  *  etc/as2

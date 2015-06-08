@@ -54,7 +54,7 @@ static void from11float(FLOAT *out, pdpfloat *in)
  FLOAT z;
 
  exponent= in->exp - 128 - 24;	/* 24 so as to shift the radix point left */
-				    /* Add in the missing significant bit */
+					/* Add in the missing significant bit */
  fraction= (in->frac1 << 16) + in->frac2 + 8388608;
 
  z= powf(2.0, (float)exponent);
@@ -94,75 +94,75 @@ static struct { u_int16_t lo; u_int16_t hi; } intpair;
 static void 
 load_flt(void)
 {
-    u_int16_t indirect,addr;
-    u_int16_t *intptr;
+	u_int16_t indirect,addr;
+	u_int16_t *intptr;
 
-    FpDebug((dbg_file, "\tload_flt mode %d\n", DST_MODE));
-    switch (DST_MODE) {
-    case 0:
+	FpDebug((dbg_file, "\tload_flt mode %d\n", DST_MODE));
+	switch (DST_MODE) {
+	case 0:
 	Srcflt = fregs[DST_REG];
 	fladdr=NULL; return;
-    case 1:
+	case 1:
 	if (DST_REG == PC) {
-	    intptr = (u_int16_t *)&ispace[regs[DST_REG]];
-	    intpair.lo= *intptr;
-	    intpair.hi=0;
-	    fladdr= (pdpfloat *)&intpair;
+		intptr = (u_int16_t *)&ispace[regs[DST_REG]];
+		intpair.lo= *intptr;
+		intpair.hi=0;
+		fladdr= (pdpfloat *)&intpair;
 	} else fladdr = (pdpfloat *)&dspace[regs[DST_REG]];
 	from11float(&Srcflt, fladdr);
 	return;
-    case 2:
+	case 2:
 	if (DST_REG == PC) {
-	    intptr = (u_int16_t *)&ispace[regs[DST_REG]];
-	    intpair.lo= *intptr;
-	    intpair.hi=0;
-	    fladdr= (pdpfloat *)&intpair;
-	    from11float(&Srcflt, fladdr);
-	    regs[DST_REG] += 2;
+		intptr = (u_int16_t *)&ispace[regs[DST_REG]];
+		intpair.lo= *intptr;
+		intpair.hi=0;
+		fladdr= (pdpfloat *)&intpair;
+		from11float(&Srcflt, fladdr);
+		regs[DST_REG] += 2;
 	} else {
-	    fladdr = (pdpfloat *)&dspace[regs[DST_REG]];
-	    from11float(&Srcflt, fladdr);
-	    if (FPMODE) regs[DST_REG] += 8;
-	    else regs[DST_REG] += 4;
+		fladdr = (pdpfloat *)&dspace[regs[DST_REG]];
+		from11float(&Srcflt, fladdr);
+		if (FPMODE) regs[DST_REG] += 8;
+		else regs[DST_REG] += 4;
 	}
 	return;
-    case 3:
+	case 3:
 	ll_word(regs[DST_REG], indirect);
 	if (DST_REG == PC) {
-	    intptr = (u_int16_t *)&ispace[indirect];
-	    intpair.lo= *intptr;
-	    intpair.hi=0;
-	    fladdr= (pdpfloat *)&intpair;
-	    from11float(&Srcflt, fladdr);
-	    regs[DST_REG] += 2;
+		intptr = (u_int16_t *)&ispace[indirect];
+		intpair.lo= *intptr;
+		intpair.hi=0;
+		fladdr= (pdpfloat *)&intpair;
+		from11float(&Srcflt, fladdr);
+		regs[DST_REG] += 2;
 	} else {
-	    fladdr = (pdpfloat *)&dspace[indirect];
-	    from11float(&Srcflt, fladdr);
-	    if (FPMODE) regs[DST_REG] += 8;
-	    else regs[DST_REG] += 4;
+		fladdr = (pdpfloat *)&dspace[indirect];
+		from11float(&Srcflt, fladdr);
+		if (FPMODE) regs[DST_REG] += 8;
+		else regs[DST_REG] += 4;
 	}
 	return;
-    case 4:
+	case 4:
 	if (FPMODE) regs[DST_REG] -= 8;
 	else regs[DST_REG] -= 4;
 	fladdr = (pdpfloat *)&dspace[regs[DST_REG]];
 	from11float(&Srcflt, fladdr);
 	return;
-    case 5:
+	case 5:
 	if (FPMODE) regs[DST_REG] -= 8;
 	else regs[DST_REG] -= 4;
 	ll_word(regs[DST_REG], indirect);
 	fladdr = (pdpfloat *)&dspace[indirect];
 	from11float(&Srcflt, fladdr);
 	return;
-    case 6:
+	case 6:
 	lli_word(regs[PC], indirect);
 	regs[PC] += 2;
 	indirect= regs[DST_REG] + indirect;
 	fladdr = (pdpfloat *)&dspace[indirect];
 	from11float(&Srcflt, fladdr);
 	return;
-    case 7:
+	case 7:
 	lli_word(regs[PC], indirect);
 	regs[PC] += 2;
 	indirect = regs[DST_REG] + indirect;
@@ -170,8 +170,8 @@ load_flt(void)
 	fladdr = (pdpfloat *)&dspace[addr];
 	from11float(&Srcflt, fladdr);
 	return;
-    }
-    illegal();
+	}
+	illegal();
 }
 
 /* Save (and convert if necessary) Srcflt into the float described by the
@@ -179,27 +179,27 @@ load_flt(void)
 static void 
 save_flt(void)
 {
-    u_int16_t indirect;
-    u_int16_t addr;
-    pdpfloat *fladdr;
+	u_int16_t indirect;
+	u_int16_t addr;
+	pdpfloat *fladdr;
 
-    FpDebug((dbg_file, "\tsave_flt mode %d\n", DST_MODE));
-    switch (DST_MODE) {
-    case 0:
+	FpDebug((dbg_file, "\tsave_flt mode %d\n", DST_MODE));
+	switch (DST_MODE) {
+	case 0:
 	fregs[DST_REG] = Srcflt;
 	return;
-    case 1:
+	case 1:
 	fladdr = (pdpfloat *)&dspace[regs[DST_REG]];
 	to11float(&Srcflt, fladdr);
 	return;
-    case 2:
+	case 2:
 	fladdr = (pdpfloat *)&dspace[regs[DST_REG]];
 	to11float(&Srcflt, fladdr);
 	if (DST_REG == PC) regs[DST_REG] += 2;
 	else if (FPMODE) regs[DST_REG] += 8;
 	else regs[DST_REG] += 4;
 	return;
-    case 3:
+	case 3:
 	ll_word(regs[DST_REG], indirect);
 	fladdr = (pdpfloat *)&dspace[indirect];
 	to11float(&Srcflt, fladdr);
@@ -207,27 +207,27 @@ save_flt(void)
 	else if (FPMODE) regs[DST_REG] += 8;
 	else regs[DST_REG] += 4;
 	return;
-    case 4:
+	case 4:
 	if (FPMODE) regs[DST_REG] -= 8;
 	else regs[DST_REG] -= 4;
 	fladdr = (pdpfloat *)&dspace[regs[DST_REG]];
 	to11float(&Srcflt, fladdr);
 	return;
-    case 5:
+	case 5:
 	if (FPMODE) regs[DST_REG] -= 8;
 	else regs[DST_REG] -= 4;
 	ll_word(regs[DST_REG], indirect);
 	fladdr = (pdpfloat *)&dspace[indirect];
 	to11float(&Srcflt, fladdr);
 	return;
-    case 6:
+	case 6:
 	lli_word(regs[PC], indirect);
 	regs[PC] += 2;
 	indirect = regs[DST_REG] + indirect;
 	fladdr = (pdpfloat *)&dspace[indirect];
 	to11float(&Srcflt, fladdr);
 	return;
-    case 7:
+	case 7:
 	lli_word(regs[PC], indirect);
 	regs[PC] += 2;
 	indirect = regs[DST_REG] + indirect;
@@ -235,8 +235,8 @@ save_flt(void)
 	fladdr = (pdpfloat *)&dspace[addr];
 	to11float(&Srcflt, fladdr);
 	return;
-    }
-    illegal();
+	}
+	illegal();
 }
 
 /* lli_long() - Load a long from the given ispace logical address. */
@@ -254,118 +254,118 @@ save_flt(void)
 static void 
 load_long(void)
 {
-    u_int16_t addr, indirect;
+	u_int16_t addr, indirect;
 
-    switch (DST_MODE) {
-    case 0:
+	switch (DST_MODE) {
+	case 0:
 	srclong = regs[DST_REG];
 	return;
-    case 1:
+	case 1:
 	addr = regs[DST_REG];
 	if (DST_REG == PC) {
-	    lli_long(addr, srclong)
+		lli_long(addr, srclong)
 	} else {
-	    ll_long(addr, srclong);
+		ll_long(addr, srclong);
 	}
 	return;
-    case 2:
+	case 2:
 	addr = regs[DST_REG];
 	if (DST_REG == PC) {
-	    lli_long(addr, srclong)
+		lli_long(addr, srclong)
 	} else {
-	    ll_long(addr, srclong);
+		ll_long(addr, srclong);
 	}
 	regs[DST_REG] += 4;
 	return;
-    case 3:
+	case 3:
 	indirect = regs[DST_REG];
 	if (DST_REG == PC) {
-	    lli_word(indirect, addr)
+		lli_word(indirect, addr)
 	} else {
-	    ll_word(indirect, addr);
+		ll_word(indirect, addr);
 	}
 	regs[DST_REG] += 4;
 	ll_long(addr, srclong);
 	return;
-    case 4:
+	case 4:
 	regs[DST_REG] -= 4;
 	addr = regs[DST_REG];
 	ll_long(addr, srclong);
 	return;
-    case 5:
+	case 5:
 	regs[DST_REG] -= 4;
 	indirect = regs[DST_REG];
 	ll_word(indirect, addr);
 	ll_long(addr, srclong);
 	return;
-    case 6:
+	case 6:
 	lli_word(regs[PC], indirect);
 	regs[PC] += 2;
 	addr = regs[DST_REG] + indirect;
 	ll_long(addr, srclong);
 	return;
-    case 7:
+	case 7:
 	lli_word(regs[PC], indirect);
 	regs[PC] += 2;
 	indirect = regs[DST_REG] + indirect;
-	    ll_word(indirect, addr);
+		ll_word(indirect, addr);
 	ll_long(addr, srclong);
 	return;
-    }
-    illegal();
+	}
+	illegal();
 }
 
 
 static void 
 store_long(void)
 {
-    u_int16_t addr, indirect;
+	u_int16_t addr, indirect;
 
-    switch (DST_MODE) {
-    case 0:
+	switch (DST_MODE) {
+	case 0:
 	regs[DST_REG]= dstlong;
 	return;
-    case 1:
+	case 1:
 	addr = regs[DST_REG];
 	sl_long(addr, dstlong)
 	return;
-    case 2:
+	case 2:
 	addr = regs[DST_REG];
 	sl_long(addr, dstlong)
 	regs[DST_REG] += 4;
 	return;
-    case 3:
+	case 3:
 	indirect = regs[DST_REG];
 	ll_word(indirect, addr);
 	regs[DST_REG] += 4;
 	sl_long(addr, dstlong);
 	return;
-    case 4:
+	case 4:
 	regs[DST_REG] -= 4;
 	addr = regs[DST_REG];
 	sl_long(addr, dstlong);
 	return;
-    case 5:
+	case 5:
 	regs[DST_REG] -= 4;
 	indirect = regs[DST_REG];
 	ll_word(indirect, addr);
 	sl_long(addr, dstlong);
 	return;
-    case 6:
+	case 6:
 	lli_word(regs[PC], indirect);
 	regs[PC] += 2;
 	addr = regs[DST_REG] + indirect;
 	sl_long(addr, dstlong);
 	return;
-    case 7:
+	case 7:
 	lli_word(regs[PC], indirect);
 	regs[PC] += 2;
 	indirect = regs[DST_REG] + indirect;
 	ll_word(indirect, addr);
 	sl_long(addr, dstlong);
 	return;
-    }
-    illegal();
+	}
+	illegal();
 }
 
 
@@ -373,22 +373,22 @@ store_long(void)
 void
 fpset()
 {
-    switch (ir) {
+	switch (ir) {
 	case 0170000:		/* CFCC */
 	CC_C= FPC; CC_V= FPV;
 	CC_Z= FPZ; CC_N= FPN;
 	return;
-    case 0170001:		/* SETF */
+	case 0170001:		/* SETF */
 	FPMODE=0; return;
-    case 0170002:		/* SETI */
+	case 0170002:		/* SETI */
 	INTMODE=0; return;
-    case 0170011:		/* SETD */
+	case 0170011:		/* SETD */
 	FPMODE=1; return;
-    case 0170012:		/* SETL */
+	case 0170012:		/* SETL */
 	INTMODE=1; return;
-    default:
+	default:
 	not_impl();
-    }
+	}
 }
 
 void
@@ -531,22 +531,22 @@ tstf()	/* Test float */
 void
 ldfps() /* Load FPP status */
 {
-    load_dst();
-    if (dstword & CC_NBIT) CC_N=1;
-    if (dstword & CC_ZBIT) CC_Z=1;
-    if (dstword & CC_VBIT) CC_V=1;
-    if (dstword & CC_CBIT) CC_C=1;
+	load_dst();
+	if (dstword & CC_NBIT) CC_N=1;
+	if (dstword & CC_ZBIT) CC_Z=1;
+	if (dstword & CC_VBIT) CC_V=1;
+	if (dstword & CC_CBIT) CC_C=1;
 }
 
 void
 stfps() /* Store FPP status */
 {
-    srcword=0;
-    if (CC_N) srcword|= CC_NBIT;
-    if (CC_Z) srcword|= CC_ZBIT;
-    if (CC_V) srcword|= CC_VBIT;
-    if (CC_C) srcword|= CC_CBIT;
-    store_dst();
+	srcword=0;
+	if (CC_N) srcword|= CC_NBIT;
+	if (CC_Z) srcword|= CC_ZBIT;
+	if (CC_V) srcword|= CC_VBIT;
+	if (CC_C) srcword|= CC_CBIT;
+	store_dst();
 }
 
 void

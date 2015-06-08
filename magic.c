@@ -75,7 +75,7 @@ static struct spec_aout S[]= {
 	{ 0x55882, IS_V7 },	/* 2.9 /bin/as */
 	{ 0x54702, IS_V5 },	/* V5 usr/games/ttt */
 	{ 0x55702, IS_V7 },	/* V7 bin/as */
-	{ 0x5c342, IS_V2 },    /* /bin/cc dated Jun 30 1973 from s2 tape */
+	{ 0x5c342, IS_V2 },	/* /bin/cc dated Jun 30 1973 from s2 tape */
 	{ 0x6f742, IS_V6 },	/* V6 usr/bin/sa */
 	{ 0x7042, IS_V7 },	/* V7 bin/factor */
 	{ 0x71702, IS_V7 },	/* V7 lib/as2 */
@@ -115,20 +115,20 @@ static struct spec_aout S[]= {
 /* cptr points at the start of the a.out header */
 int special_magic(u_int16_t *cptr)
 {
-    u_int32_t cksum=0;
-    int i;
+	u_int32_t cksum=0;
+	int i;
 
-    if (cptr==NULL) return(IS_UNKNOWN);
+	if (cptr==NULL) return(IS_UNKNOWN);
 				/* Calculate the checksum */
-    for (i=0;i<8; i++) { cksum ^= cptr[i]; cksum = cksum<<1; }
+	for (i=0;i<8; i++) { cksum ^= cptr[i]; cksum = cksum<<1; }
 
 				/* Try and find a match */
-    for (i=0; S[i].cksum!=0; i++) if (S[i].cksum==cksum) {
-      TrapDebug((dbg_file, "This a.out has special magic %d\n",i));
-      return(S[i].environment);
-    }
+	for (i=0; S[i].cksum!=0; i++) if (S[i].cksum==cksum) {
+	  TrapDebug((dbg_file, "This a.out has special magic %d\n",i));
+	  return(S[i].environment);
+	}
 
    				/* None, return 0 */
-    (void)printf("Apout - unknown magic in header: 0x%x\n",cksum);
-    return(IS_UNKNOWN);
+	(void)printf("Apout - unknown magic in header: 0x%x\n",cksum);
+	return(IS_UNKNOWN);
 }

@@ -1,8 +1,8 @@
-	       Apout -- Simulate PDP-11 Unix a.out binaries
-			    Version 2.3 Beta 1
+		   Apout -- Simulate PDP-11 Unix a.out binaries
+				Version 2.3 Beta 1
 
-		     Warren Toomey  wkt@tuhs.org
-			        June 2002
+			 Warren Toomey  wkt@tuhs.org
+					June 2002
 
 Introduction
 ------------
@@ -67,7 +67,7 @@ The V7 shell works, and from there, you can run other programs.
 
 	% apout sh
 	# ls -l
-	    output of ls
+		output of ls
 	#
 
 Finally, install apout in /usr/local/bin, and the manual page apout.1 in
@@ -105,9 +105,9 @@ TODO
 There's lots to do. Here's what I'd like to do, in a somewhat ordered list.
 
 	+ Verify that the instruction simulation and	high priority
-	     the syscalls all work correctly
+		 the syscalls all work correctly
 	+ Complete some of the syscalls that are	med priority
-	     not fully simulated
+		 not fully simulated
 	+ Speed the simulator up 			med priority
 
 SOURCE ORGANISATION

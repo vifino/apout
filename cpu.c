@@ -41,17 +41,17 @@ char *name;
 /* Run until told to stop. */
 void run() {
 #ifdef DEBUG
-    int i;
+	int i;
 
-    if (trap_debug) {
+	if (trap_debug) {
 	TrapDebug((dbg_file, "Just starting to run pid %d\n",(int)getpid()));
-	TrapDebug((dbg_file, "Regs are           "));
+	TrapDebug((dbg_file, "Regs are		   "));
 	for (i=0;i<=PC;i++) TrapDebug((dbg_file, "%06o ",regs[i]));
 	TrapDebug((dbg_file, "\n"));
-    }
+	}
 #endif
 
-    while (1) {
+	while (1) {
 
 	/* Fetch and execute the instruction. */
 
@@ -96,99 +96,99 @@ void run() {
 	lli_word(regs[PC], ir); regs[PC] += 2; itab[ir >> 6] ();
 	if ((Sighead!=NULL) && (sigrunner!=NULL)) (void) (*sigrunner)();
 #endif
-    }
+	}
 }
 
 /* sim_init() - Initialize the cpu registers. */
 void sim_init() {
-    int x;
+	int x;
 
-    for (x = 0; x < 8; ++x) { regs[x] = 0; }
-    ir = 0; CLR_CC_ALL();
+	for (x = 0; x < 8; ++x) { regs[x] = 0; }
+	ir = 0; CLR_CC_ALL();
 }
 
 void bus_error(int signo)
 {
-    TrapDebug((dbg_file, "Apout - pid %d bus error at PC 0%06o\n",
+	TrapDebug((dbg_file, "Apout - pid %d bus error at PC 0%06o\n",
 					(int)getpid(), regs[PC]));
-    TrapDebug((dbg_file, "%06o  ", ir));
-    TrapDebug((dbg_file, "%o %o %o %o %o %o %o %o  ",
+	TrapDebug((dbg_file, "%06o  ", ir));
+	TrapDebug((dbg_file, "%o %o %o %o %o %o %o %o  ",
 	 regs[0], regs[1], regs[2], regs[3],
 	 regs[4], regs[5], regs[6], regs[7]));
-    TrapDebug((dbg_file, "NZVC2 are %d%d%d%d\n",CC_N,CC_Z,CC_V,CC_C));
-    exit(EXIT_FAILURE);
+	TrapDebug((dbg_file, "NZVC2 are %d%d%d%d\n",CC_N,CC_Z,CC_V,CC_C));
+	exit(EXIT_FAILURE);
 }
 
 void seg_fault() {
-    TrapDebug((dbg_file, "Apout - pid %d segmentation fault at PC 0%06o\n",
+	TrapDebug((dbg_file, "Apout - pid %d segmentation fault at PC 0%06o\n",
 					(int)getpid(), regs[PC]));
-    TrapDebug((dbg_file, "%06o  ", ir));
-    TrapDebug((dbg_file, "%o %o %o %o %o %o %o %o  ",
+	TrapDebug((dbg_file, "%06o  ", ir));
+	TrapDebug((dbg_file, "%o %o %o %o %o %o %o %o  ",
 	 regs[0], regs[1], regs[2], regs[3],
 	 regs[4], regs[5], regs[6], regs[7]));
-    TrapDebug((dbg_file, "NZVC3 are %d%d%d%d\n",CC_N,CC_Z,CC_V,CC_C));
-    exit(EXIT_FAILURE);
+	TrapDebug((dbg_file, "NZVC3 are %d%d%d%d\n",CC_N,CC_Z,CC_V,CC_C));
+	exit(EXIT_FAILURE);
 }
 
 void waiti() {
-    TrapDebug((stderr, "Apout - pid %d waiti instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d waiti instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void halt() {
-    TrapDebug((stderr, "Apout - pid %d halt instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d halt instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void iot() {
-    TrapDebug((stderr, "Apout - pid %d iot instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d iot instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void emt() {
-    TrapDebug((stderr, "Apout - pid %d emt instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d emt instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void bpt() {
-    TrapDebug((stderr, "Apout - pid %d bpt instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d bpt instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void illegal() {
-    TrapDebug((stderr, "Apout - pid %d illegal instruction %o at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d illegal instruction %o at PC 0%o\n",
 					(int)getpid(),ir, regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void not_impl() {
-    TrapDebug((stderr, "Apout - pid %d unimplemented instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d unimplemented instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void mark() {
-    TrapDebug((stderr, "Apout - pid %d mark instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d mark instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void mfpd() {
-    TrapDebug((stderr, "Apout - pid %d mfpd instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d mfpd instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void mtpd() {
-    TrapDebug((stderr, "Apout - pid %d mtpd instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d mtpd instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void trap() {
-    TrapDebug((stderr, "Apout - pid %d trap instruction at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d trap instruction at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 void bad_FP_reg() {
-    TrapDebug((stderr, "Apout - pid %d bad FP register used at PC 0%o\n",
+	TrapDebug((stderr, "Apout - pid %d bad FP register used at PC 0%o\n",
 					(int)getpid(), regs[PC]));
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 
 /* This is the generic function which catches

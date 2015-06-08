@@ -101,23 +101,23 @@ int do_sigaction(int sig, int a, int oa)
   if ((sig<0) || (sig >= NBSDSIG)) return(EINVAL);
 
   if (oa) {
-    oact= (struct bsd_sigaction *)&dspace[oa];
-    memcpy(oact, &Sigact[sig], sizeof(struct bsd_sigaction));
+	oact= (struct bsd_sigaction *)&dspace[oa];
+	memcpy(oact, &Sigact[sig], sizeof(struct bsd_sigaction));
   }
 
   if (a) {
-    act= (struct bsd_sigaction *)&dspace[a];
+	act= (struct bsd_sigaction *)&dspace[a];
 
 		/* If required, map mask here */
 		/* Currently, the assumption is a 1-1 match */
-    sigemptyset(&(ouraction.sa_mask));
-    for (i=1; i<NBSDSIG;i++) {
+	sigemptyset(&(ouraction.sa_mask));
+	for (i=1; i<NBSDSIG;i++) {
 	if bsdsigismember(&(act->sa_mask), i)
 		sigaddset(&(ouraction.sa_mask), i);
-    }
+	}
 		/* If required, map flags here */
-    ouraction.sa_flags= act->sa_flags;
-    ouraction.sa_handler= sigcatcher;
+	ouraction.sa_flags= act->sa_flags;
+	ouraction.sa_handler= sigcatcher;
   }
 
   i= sigaction(bsdsig[sig], &ouraction, NULL);
@@ -226,7 +226,7 @@ struct	sigcontext {
 #define sigaddset(set, signo)	(*(set) |= 1L << ((signo) - 1), 0)
 #define sigdelset(set, signo)	(*(set) &= ~(1L << ((signo) - 1)), 0)
 #define sigemptyset(set)	(*(set) = (sigset_t)0, (int)0)
-#define sigfillset(set)         (*(set) = ~(sigset_t)0, (int)0)
+#define sigfillset(set)		 (*(set) = ~(sigset_t)0, (int)0)
 #define sigismember(set, signo) ((*(set) & (1L << ((signo) - 1))) != 0)
 
 #endif /* 0 */

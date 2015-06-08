@@ -89,9 +89,9 @@ to the filename. Therefore, if you have the 7th Edition files located in
 .Ar /usr/misc/v7root
 and you do:
 .Bd -literal
-    %  setenv APOUT_ROOT /usr/misc/v7root
-    %  apout $APOUT_ROOT/bin/sh
-    $
+	%  setenv APOUT_ROOT /usr/misc/v7root
+	%  apout $APOUT_ROOT/bin/sh
+	$
 .Ed
 .Pp
 then you will be greeted with the 7th Edition Bourne shell prompt as shown:
@@ -109,9 +109,9 @@ Initially, PDP-11 binaries run via
 .Nm apout
 receive the following set of emulated environment variables:
 .Bd -literal
-    PATH  /bin:/usr/bin:/usr/sbin:/usr/ucb:/usr/games:/usr/local/bin:.
-    HOME  /
-    TERM  vt100
+	PATH  /bin:/usr/bin:/usr/sbin:/usr/ucb:/usr/games:/usr/local/bin:.
+	HOME  /
+	TERM  vt100
 .Ed
 .Pp
 Emulated programs can, of course, change this emulated environment;
@@ -123,8 +123,8 @@ Binaries that are interpreted by
 can interact with native programs in several ways: through files in the
 filesystem, and through pipes. For example, you can do the following:
 .Bd -literal
-    %  ls -lR | apout $APOUT_ROOT/bin/wc | lpr
-    %  apout $APOUT_ROOT/bin/sort < file | uniq > newfile
+	%  ls -lR | apout $APOUT_ROOT/bin/wc | lpr
+	%  apout $APOUT_ROOT/bin/sort < file | uniq > newfile
 .Ed
 .Pp
 where
@@ -139,13 +139,13 @@ If
 is compiled with the NATIVES preprocessor directive enabled, then native system
 binaries can be executed as well as PDP-11 binaries. For example:
 .Bd -literal
-    % cd $APOUT_ROOT
-    % ln -s `which vi` bin/vi       Add vi into the filespace
-    % apout bin/sh
-    $ ls -l                         Run the PDP-11 ls
-      ....
-    $ vi kim.c                      Run the native vi
-    $ cc -o kim kim.c               Compile with the PDP-11 compiler
+	% cd $APOUT_ROOT
+	% ln -s `which vi` bin/vi	   Add vi into the filespace
+	% apout bin/sh
+	$ ls -l						 Run the PDP-11 ls
+	  ....
+	$ vi kim.c					  Run the native vi
+	$ cc -o kim kim.c			   Compile with the PDP-11 compiler
 .Ed
 .Pp
 Note that native executable receive the same environment variables inherited

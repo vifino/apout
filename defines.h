@@ -68,7 +68,7 @@
 #endif
 
 #if !defined(__FreeBSD__) && !defined(__NetBSD__) && \
-    !defined(__OpenBSD__) && !defined(__linux__)
+	!defined(__OpenBSD__) && !defined(__linux__)
 # define NEED_INT_N
 #endif
 
@@ -112,7 +112,7 @@ typedef unsigned long u_int32_t;
 #define NFILE   40		/* Number of file pointers we can buffer */
 #define ValidFD(x) ((x>=0) && (x<NFILE))
 				/* Used for opening on directories */
-#define TMP_PLATE       "/usr/tmp/apout_dir.XXXXXX"
+#define TMP_PLATE	   "/usr/tmp/apout_dir.XXXXXX"
 
 
 /* Set up prototype macro for 
@@ -201,17 +201,17 @@ extern u_int8_t current_ov;	/* Current overlay number */
 #ifdef DEBUG
 				/* Debugging flags */
 extern int inst_debug,		/* Print a line before each instruction */
-    trap_debug,			/* Print details of each trap */
-    jsr_debug,			/* Print out each jsr */
-    fp_debug;			/* Print out each floating-point instruction */
+	trap_debug,			/* Print details of each trap */
+	jsr_debug,			/* Print out each jsr */
+	fp_debug;			/* Print out each floating-point instruction */
 extern FILE *dbg_file;		/* Debugging output file */
 extern char *progname;		/* The program's name - used in debugging */
 #endif
 
 				/* We keep a list of signals that are pending */
 struct our_siglist {
-        int sig;		/* Number of the signal */
-        struct our_siglist *next;
+		int sig;		/* Number of the signal */
+		struct our_siglist *next;
 };
 extern struct our_siglist *Sighead;	/* Head of the list */
 extern struct our_siglist *Sigtail;	/* Tail of the list */
@@ -362,11 +362,11 @@ extern u_int16_t *adptr;
 
 /* lli_byte() - Load a byte from the given logical ispace address. */
 #define lli_byte(addr, byte) \
-    byte = ispace[addr];
+	byte = ispace[addr];
 
 /* ll_byte() - Load a byte from the given logical address. */
 #define ll_byte(addr, byte) \
-    byte = dspace[addr];
+	byte = dspace[addr];
 
 /* sl_byte() - Store a byte at the given logical address. */
 #ifdef WRITEBASE
@@ -416,13 +416,13 @@ extern u_int16_t *adptr;
 
 /* lli_byte() - Load a byte from the given logical ispace address. */
 #define lli_byte(addr, byte) \
-    byte = ispace[addr];
+	byte = ispace[addr];
 
 /* ll_byte() - Load a byte from the given logical address. */
 #define ll_byte(addr, byte) \
 	{ if ((Binary<IS_V3) && (addr>=KE11LO) && (addr<=KE11HI)) {	\
 		byte= kell_byte(addr);					\
-    	  } else byte = dspace[addr];					\
+		  } else byte = dspace[addr];					\
 	}
 
 /* sl_byte() - Store a byte at the given logical address. */

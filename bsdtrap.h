@@ -304,18 +304,18 @@ char *bsdtrap_name[] = {
 #endif
 
 /* fcntl defines used by open */
-#define BSD_RDONLY        0x0000          /* open for reading only */
-#define BSD_WRONLY        0x0001          /* open for writing only */
-#define BSD_RDWR          0x0002          /* open for reading and writing */
-#define BSD_NONBLOCK      0x0004          /* no delay */
-#define BSD_APPEND        0x0008          /* set append mode */
-#define BSD_SHLOCK        0x0010          /* open with shared file lock */
-#define BSD_EXLOCK        0x0020          /* open with exclusive file lock */
-#define BSD_ASYNC         0x0040          /* signal pgrp when data ready */
-#define BSD_FSYNC         0x0080          /* synchronous writes */
-#define BSD_CREAT         0x0200          /* create if nonexistant */
-#define BSD_TRUNC         0x0400          /* truncate to zero length */
-#define BSD_EXCL          0x0800          /* error if already exists */
+#define BSD_RDONLY		0x0000		  /* open for reading only */
+#define BSD_WRONLY		0x0001		  /* open for writing only */
+#define BSD_RDWR		  0x0002		  /* open for reading and writing */
+#define BSD_NONBLOCK	  0x0004		  /* no delay */
+#define BSD_APPEND		0x0008		  /* set append mode */
+#define BSD_SHLOCK		0x0010		  /* open with shared file lock */
+#define BSD_EXLOCK		0x0020		  /* open with exclusive file lock */
+#define BSD_ASYNC		 0x0040		  /* signal pgrp when data ready */
+#define BSD_FSYNC		 0x0080		  /* synchronous writes */
+#define BSD_CREAT		 0x0200		  /* create if nonexistant */
+#define BSD_TRUNC		 0x0400		  /* truncate to zero length */
+#define BSD_EXCL		  0x0800		  /* error if already exists */
 
 
 /* stat struct, used by S_STAT, S_FSTAT, S_LSTAT */
@@ -345,65 +345,65 @@ struct tr_stat
 #define TR_DIRBLKSIZ	512
 #define TR_MAXNAMLEN	63
 struct	tr_direct {
-    u_int16_t d_ino;			/* inode number of entry */
-    u_int16_t d_reclen;			/* length of this record */
-    u_int16_t d_namlen;			/* length of string in d_name */
-    char d_name[TR_MAXNAMLEN+1];	/* name must be no longer than this */
+	u_int16_t d_ino;			/* inode number of entry */
+	u_int16_t d_reclen;			/* length of this record */
+	u_int16_t d_namlen;			/* length of string in d_name */
+	char d_name[TR_MAXNAMLEN+1];	/* name must be no longer than this */
 };
 
 /* used by S_ADJTIME */
 struct tr_timeval {
-    u_int32_t    tv_sec;	    /* seconds */
-    u_int32_t    tv_usec;	    /* and microseconds */
+	u_int32_t	tv_sec;		/* seconds */
+	u_int32_t	tv_usec;		/* and microseconds */
 };
 /* Used by S_GETTIMEOFDAY */
 struct tr_timezone {
-    int16_t	    tz_minuteswest; /* minutes west of Greenwich */
-    int16_t	    tz_dsttime;	    /* type of dst correction */
+	int16_t		tz_minuteswest; /* minutes west of Greenwich */
+	int16_t		tz_dsttime;		/* type of dst correction */
 };
 
 /* used in itimer calls */
 struct	tr_itimerval {
-    struct	tr_timeval it_interval;	   /* timer interval */
-    struct	tr_timeval it_value;	   /* current value */
+	struct	tr_timeval it_interval;	   /* timer interval */
+	struct	tr_timeval it_value;	   /* current value */
 };
 
 /* Used by socket calls */
 struct tr_sockaddr {
-    u_int16_t sa_family;		/* address family */
-    char	 sa_data[14];		/* up to 14 bytes of direct address */
+	u_int16_t sa_family;		/* address family */
+	char	 sa_data[14];		/* up to 14 bytes of direct address */
 };
 
 /* used in rlimit calls */
 struct tr_rlimit {
-    int32_t rlim_cur;		/* current (soft) limit */
-    int32_t rlim_max;		/* maximum value for rlim_cur */
+	int32_t rlim_cur;		/* current (soft) limit */
+	int32_t rlim_max;		/* maximum value for rlim_cur */
 };
 
 struct  tr_rusage {
-        struct tr_timeval ru_utime;        /* user time used */
-        struct tr_timeval ru_stime;        /* system time used */
-        u_int32_t  ru_maxrss;
-        u_int32_t  ru_ixrss;               /* integral shared memory size */
-        u_int32_t  ru_idrss;               /* integral unshared data size */
-        u_int32_t  ru_isrss;               /* integral unshared stack size */
-        u_int32_t  ru_minflt;              /* page reclaims */
-        u_int32_t  ru_majflt;              /* page faults */
-        u_int32_t  ru_ovly;                /* overlay changes */
-        u_int32_t  ru_nswap;               /* swaps */
-        u_int32_t  ru_inblock;             /* block input operations */
-        u_int32_t  ru_oublock;             /* block output operations */
-        u_int32_t  ru_msgsnd;              /* messages sent */
-        u_int32_t  ru_msgrcv;              /* messages received */
-        u_int32_t  ru_nsignals;            /* signals received */
-        u_int32_t  ru_nvcsw;               /* voluntary context switches */
-        u_int32_t  ru_nivcsw;              /* involuntary context switches */
+		struct tr_timeval ru_utime;		/* user time used */
+		struct tr_timeval ru_stime;		/* system time used */
+		u_int32_t  ru_maxrss;
+		u_int32_t  ru_ixrss;			   /* integral shared memory size */
+		u_int32_t  ru_idrss;			   /* integral unshared data size */
+		u_int32_t  ru_isrss;			   /* integral unshared stack size */
+		u_int32_t  ru_minflt;			  /* page reclaims */
+		u_int32_t  ru_majflt;			  /* page faults */
+		u_int32_t  ru_ovly;				/* overlay changes */
+		u_int32_t  ru_nswap;			   /* swaps */
+		u_int32_t  ru_inblock;			 /* block input operations */
+		u_int32_t  ru_oublock;			 /* block output operations */
+		u_int32_t  ru_msgsnd;			  /* messages sent */
+		u_int32_t  ru_msgrcv;			  /* messages received */
+		u_int32_t  ru_nsignals;			/* signals received */
+		u_int32_t  ru_nvcsw;			   /* voluntary context switches */
+		u_int32_t  ru_nivcsw;			  /* involuntary context switches */
 };
 
 /* for writev, readv */
 struct tr_iovec {
-    u_int16_t   iov_base;
-    u_int16_t   iov_len;
+	u_int16_t   iov_base;
+	u_int16_t   iov_len;
 };
 
 
@@ -411,8 +411,8 @@ struct tr_iovec {
  * we can get at the various args of different types
  */
 typedef union {
-    int16_t   sarg[6];	/* Signed 16-bit args */
-    u_int16_t uarg[6];	/* Unsigned 16-bit args */
+	int16_t   sarg[6];	/* Signed 16-bit args */
+	u_int16_t uarg[6];	/* Unsigned 16-bit args */
 } arglist;
 
 #define sarg1	A->sarg[0]
