@@ -89,9 +89,10 @@ main(int argc, char **argv)
 	if ((apout_root = getenv("APOUT_ROOT"))) {
 	set_apout_root(apout_root);
 	} else {
-		fprintf(stderr,
+		/*fprintf(stderr,
 				"APOUT_ROOT env variable not set before running apout\n");
-		exit(1);
+		exit(1);*/
+		set_apout_root("/"); // Assume /
 	}
 
 				/* Try to load the binary as an a.out */
