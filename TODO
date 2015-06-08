@@ -11,8 +11,8 @@ Speed Apout up
 	in ea.c. After compiling 2.11BSD /sys/GENERIC kernel with a
 	gprof'd apout, we get:
 
-	  %   cumulative   self			  self	 total		   
- 	time   seconds   seconds	calls  ms/call  ms/call  name	
+	  %   cumulative   self			  self	 total
+	time   seconds   seconds	calls  ms/call  ms/call  name
 	   64.9	   3.64	 3.64							 .mcount (123)
 		6.1	   3.99	 0.34  1609635	 0.00	 0.00  load_src [5]
 		5.6	   4.30	 0.31  1665976	 0.00	 0.00  mov [4]
@@ -49,7 +49,7 @@ Finish off 2.11BSD emulation
 	Finish off all the missing syscalls. This means I will have to
 	learn how the new signal stuff actually works. Emulating signals
 	is going to be really interesting, I can see!
-	
+
 	Enumerate and write all of the ioctls: yucko. That means all of
 	the terminal stuff, blah!
 

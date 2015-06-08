@@ -14,10 +14,16 @@ CC?=gcc
 #CFLAGS= -Wall -g -DEMU211 -DEMUV1 -DNATIVES -DDEBUG -DZERO_MEMORY -DWRITEBASE
 #LDFLAGS= -static -g
 
-# These flags for speed
-CFLAGS= -DEMU211 -DNATIVES -DINLINE=inline -O2 -Winline -Wall \
+# These flags for optimised debug.
+CFLAGS= -DEMU211 -DEMUV1 -DDEBUG -DZERO_MEMORY -DWRITEBASE -DNATIVES \
+	-DINLINE=inline -O2 -Winline -Wall \
 	-finline-functions -fomit-frame-pointer
 LDFLAGS= -static
+
+# These flags for pure speed
+#CFLAGS= -DEMU211 -DNATIVES -DINLINE=inline -O2 -Winline -Wall \
+#	-finline-functions -fomit-frame-pointer
+#LDFLAGS= -static
 
 # Any extra libraries required
 LIBS= -lm
