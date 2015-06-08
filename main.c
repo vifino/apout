@@ -86,13 +86,13 @@ main(int argc, char **argv)
 
 								/* Set the translation to a fictitious */
 								/* root filesystem */
-	if ((apout_root = getenv("APOUT_ROOT"))) {  
+	if ((apout_root = getenv("APOUT_ROOT"))) {
 	set_apout_root(apout_root);
 	} else {
-		fprintf(stderr,				 
+		fprintf(stderr,
 				"APOUT_ROOT env variable not set before running apout\n");
 		exit(1);
-	}   
+	}
 
 				/* Try to load the binary as an a.out */
 	if (load_a_out(argv[0],NULL,1) == -1) {
@@ -111,7 +111,7 @@ main(int argc, char **argv)
  * have to free the returned pointer, but successive calls will destroy
  * calls from >2 calls earlier.
  */
-char * xlate_filename(char *name)
+char * xlate_filename(unsigned char *name)
 {
 	int i=whichrfn;
 
@@ -125,8 +125,8 @@ char * xlate_filename(char *name)
 
 void set_apout_root(char *dirname)
 {
-		strcpy(realfilename[0], dirname);	  
-		strcpy(realfilename[1], dirname);	  
+		strcpy(realfilename[0], dirname);
+		strcpy(realfilename[1], dirname);
 		rfn[0] = realfilename[0]; rfn[0] += strlen(realfilename[0]);
 		rfn[1] = realfilename[1]; rfn[1] += strlen(realfilename[1]);
 }
